@@ -1,0 +1,30 @@
+{
+  "coimbra": {
+    "t":"Céu Limpo",
+    "t+1":"Céu Limpo",
+    "t+2":"Céu Limpo",
+    "t+3":"Céu Limpo",
+    "t+4":"Céu Limpo"
+  },
+  "lisboa": {
+    "t":"Céu Limpo",
+    "t+1":"Céu Limpo",
+    "t+2":"Céu Limpo",
+    "t+3":"Céu Limpo",
+    "t+4":"Céu Limpo"
+  },
+  "aveiro": {
+    "t":"Céu Limpo",
+    "t+1":"Céu Limpo",
+    "t+2":"Céu Limpo",
+    "t+3":"Céu Limpo",
+    "t+4":"Céu Limpo"
+  },
+  "porto": {
+    "t":"Céu Limpo",
+    "t+1":"Céu Limpo",
+    "t+2":"Céu Limpo",
+    "t+3":"Céu Limpo",
+    "t+4":"Céu Limpo"
+  }
+}
