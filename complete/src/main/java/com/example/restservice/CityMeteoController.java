@@ -22,10 +22,25 @@ public class CityMeteoController {
     @GetMapping("/cities")
     public Cities cities() {
         JSONParser jsonParser = new JSONParser();
+        JSONArray jsonArray =null;
         try {
-            JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader(System.getProperty("user.dir")+"/src/main/java/com/example/restservice/cities.json"));
+            jsonArray = (JSONArray) jsonParser.parse(new FileReader(System.getProperty("user.dir")+"/src/main/java/com/example/restservice/cities.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new Cities(jsonArray.toArray(),counter.incrementAndGet());
+    }
 
-            return new Cities(jsonArray.toArray(),counter.incrementAndGet());
+    @GetMapping("/cities/{city}")
+    public String cityMeteo(@PathVariable String city,@RequestParam(value = "days", defaultValue = "1") Integer days) {
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObject = null;
+        Object value=null;
+        try {
+            jsonObject = (JSONObject) jsonParser.parse(new FileReader(System.getProperty("user.dir")+"/src/main/java/com/example/restservice/meteo.json"));
+            value=  jsonObject.get(city);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -33,12 +48,9 @@ public class CityMeteoController {
             e.printStackTrace();
         }
 
-        return null;
-    }
-
-    @GetMapping("/cities/{city}")
-    public String cityMeteo(@PathVariable String city,@RequestParam(value = "days", defaultValue = "1") Integer days) {
-        //String value = (String) jsonObject.get("key_name");
-        return city+' '+days.toString();
+        if (value!=null)
+            return value.toString()+' '+days.toString();
+        else
+            return "City not found "+days.toString();
     }
 }
