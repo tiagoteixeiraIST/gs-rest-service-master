@@ -1,19 +1,18 @@
 package com.example.restservice;
 
+import org.json.JSONArray;
+
 public class Cities {
-    private Object[] cities;
+    private String cities;
     private long id;
 
-    public Cities(Object[] cities, long id) {
-        this.cities = cities;
+    public Cities(JSONArray cities, long id) {
+        this.cities = String.valueOf(cities);
         this.id = id;
     }
 
-    public Cities(String error, long id) {
-        this.id = id;
-    }
 
-    public Object[] getCities() {
+    public String getCities() {
         return cities;
     }
 

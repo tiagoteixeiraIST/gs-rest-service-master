@@ -1,16 +1,15 @@
 package com.example.restservice;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,36 +20,89 @@ public class CityMeteoController {
 
     @GetMapping("/cities")
     public Cities cities() {
-        JSONParser jsonParser = new JSONParser();
-        JSONArray jsonArray =null;
+        String resourceName = System.getProperty("user.dir")+"/src/main/java/com/example/restservice/cities.json";
+
+        InputStream is = null;
         try {
-            jsonArray = (JSONArray) jsonParser.parse(new FileReader(System.getProperty("user.dir")+"/src/main/java/com/example/restservice/cities.json"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+            is = new FileInputStream(resourceName);
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return new Cities(jsonArray.toArray(),counter.incrementAndGet());
+        if (is == null) {
+            throw new NullPointerException("Cannot find resource file " + resourceName);
+        }
+
+        JSONTokener tokener = new JSONTokener(is);
+
+
+        JSONArray object = new JSONArray(tokener);
+
+
+        return new Cities(object,counter.incrementAndGet());
     }
 
     @GetMapping("/cities/{city}")
-    public String cityMeteo(@PathVariable String city,@RequestParam(value = "days", defaultValue = "1") Integer days) {
-        JSONParser jsonParser = new JSONParser();
-        JSONObject jsonObject = null;
-        Object value=null;
-        try {
-            jsonObject = (JSONObject) jsonParser.parse(new FileReader(System.getProperty("user.dir")+"/src/main/java/com/example/restservice/meteo.json"));
-            value=  jsonObject.get(city);
+    public String cityMeteo(@PathVariable String city,@RequestParam(value = "days", defaultValue = "1") String days) {
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+
+        String resourceName = System.getProperty("user.dir")+"/src/main/java/com/example/restservice/meteo.json";
+
+        InputStream is = null;
+        try {
+            is = new FileInputStream(resourceName);
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        if (is == null) {
+            throw new NullPointerException("Cannot find resource file " + resourceName);
+        }
 
-        if (value!=null)
-            return value.toString()+' '+days.toString();
-        else
-            return "City not found "+days.toString();
+        JSONTokener tokener = new JSONTokener(is);
+        JSONObject object = new JSONObject(tokener);
+
+        JSONObject value= null;
+        try{
+            value=object.getJSONObject(city);
+        } catch (JSONException e){
+
+            JSONObject json = new JSONObject();
+            json.put("error", "That city doesn't exist");
+            json.put("id",counter.incrementAndGet());
+
+            return  json.toString();
+        }
+
+
+        String intregex = "[1-5]";
+
+        if(!days.matches(intregex)) {
+            JSONObject json = new JSONObject();
+            json.put("error", "Days number not allowed ");
+            json.put("id",counter.incrementAndGet());
+
+            return  json.toString();
+        }
+
+
+
+        if (value!=null){
+            JSONObject item = new JSONObject();
+            JSONObject json = new JSONObject();
+
+            for(int i=1;i<=Integer.parseInt(days);i++){
+                item.put(String.valueOf(i),String.valueOf(value.get(String.valueOf(i))));
+            }
+            json.put(city,item);
+            json.put("id",counter.incrementAndGet());
+            return json.toString();
+
+        }
+        else {
+            JSONObject json = new JSONObject();
+            json.put("error", "City not available");
+            json.put("id", counter.incrementAndGet());
+
+            return json.toString();
+        }
     }
 }
