@@ -89,10 +89,6 @@ public class CityMeteoController {
             JSONObject json = new JSONObject();
 
             for(int i=1;i<=Integer.parseInt(days);i++){
-
-
-
-
                 item.put(String.valueOf(i),value.get(String.valueOf(i)));
             }
             json.put(city,item);

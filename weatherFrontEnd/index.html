@@ -6,6 +6,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1">
 		
 		<title>Weather Challenge</title>
+		<style type="text/css">
+			.leaflet-container {
+		        background: rgba(0,0,0,.8) !important;
+		      }
+		</style>
 
 		<!-- Loading third party fonts -->
 		<link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
@@ -13,7 +18,11 @@
 
 		<!-- Loading main css file -->
 		<link rel="stylesheet" href="style.css">
-		
+
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+		          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+		          crossorigin=""/>
+				
 		<!--[if lt IE 9]>
 		<script src="js/ie-support/html5.js"></script>
 		<script src="js/ie-support/respond.js"></script>
@@ -144,15 +153,11 @@
 				<div class="fullwidth-block" data-bg-color="white">
 					<div class="container">
 						<div class="row">
-							<div class="col-md-6">
-								<canvas id="myChart" width="400" height="400"></canvas>
+							<div class="col-md-6" >
+   								<div id="map" style="height: 400px"></div>
 							</div>
 							<div class="col-md-6">
-								<div class="news">
-									<div class="date">06.10</div>
-									<h3><a href="#">Doloremque laudantium totam sequi </a></h3>
-									<p>Enim impedit officiis placeat qui recusandae doloremque possimus, iusto blanditiis, quam optio delectus maiores. Possimus rerum, velit cum natus eos. Cumque pariatur beatae asperiores, esse libero quas ad dolorem. Voluptates.</p>
-								</div>
+								<canvas id="myChart" width="400" height="400"></canvas>
 							</div>
 						</div>
 					</div>
@@ -166,11 +171,114 @@
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script src="js/plugins.js"></script>
 		<script src="js/app.js"></script>
+		<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+		<script src="js/heatmap.js"></script>
+		<script src="js/leaflet-heatmap.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 		<script>
+			var baseLayer = L.tileLayer(
+		          'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+		            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+		            maxZoom: 18
+		          }
+		        );
+
+			var cfg = {
+		          // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+		          "radius": 1,
+		          "maxOpacity": .8, 
+		          // scales the radius based on map zoom
+		          "scaleRadius": true, 
+		          // if set to false the heatmap uses the global maximum for colorization
+		          // if activated: uses the data maximum within the current map boundaries 
+		          //   (there will always be a red spot with useLocalExtremas true)
+		          "useLocalExtrema": true,
+		          // which field name in your data represents the latitude - default "lat"
+		          latField: 'lat',
+		          // which field name in your data represents the longitude - default "lng"
+		          lngField: 'lng',
+		          // which field name in your data represents the data value - default "value"
+		          valueField: 'count'
+		        };
+
+
+		        var heatmapLayer = new HeatmapOverlay(cfg);
+
+		        var map = new L.Map('map', {
+		          center: new L.LatLng(40.2045366,-8.4123607),
+		          zoom: 4,
+		          layers: [baseLayer, heatmapLayer]
+		        });
+
+		        
+			function updateLineChart(temps){
+				var ctx = document.getElementById('myChart');
+				var myChart = new Chart(ctx, {
+				    type: 'line',
+				    data: {
+				        labels: ['T', 'T+1', 'T+2', 'T+3', 'T+4'],
+				        datasets: [{
+				            label: 'Temperature Variation',
+				            data: temps,
+				            backgroundColor: [
+				                'rgba(255, 99, 132, 0.2)',
+				                'rgba(54, 162, 235, 0.2)',
+				                'rgba(255, 206, 86, 0.2)',
+				                'rgba(75, 192, 192, 0.2)',
+				                'rgba(153, 102, 255, 0.2)',
+				            ],
+				            borderColor: [
+				                'rgba(255, 99, 132, 1)',
+				                'rgba(54, 162, 235, 1)',
+				                'rgba(255, 206, 86, 1)',
+				                'rgba(75, 192, 192, 1)',
+				                'rgba(153, 102, 255, 1)',
+				            ],
+				            borderWidth: 1
+				        }]
+				    },
+				    options: {
+				        scales: {
+				            yAxes: [{
+				                ticks: {
+				                    beginAtZero: true
+				                }
+				            }]
+				        }
+				    }
+				});
+
+			}
+
+			function updateHeatMap(city){
+				var def={lat: 40.2045, lng:-8.4123, count: 1};/*coimbra*/
+
+				if(city=='lisboa'){
+					def={lat: 38.7436883, lng:-9.1952227, count: 1};/*lisboa*/
+				}
+				else if(city=='porto'){
+					def={lat: 41.1622023, lng:-8.6569731, count: 1};/*porto*/
+				}
+				else if(city=='aveiro'){
+					def={lat: 40.6394116, lng:-8.6621375, count: 1};/*aveiro*/
+				}
+
+				var testData = {
+		          max: 8,
+		          data: [def]
+		      };
+		        heatmapLayer.setData(testData);
+
+		        // make accessible for debugging
+		        layer = heatmapLayer;
+			}
+
 
 			function updateForecast(city){
+				var temps=[];
 
 		    	$.get( "http://localhost:8080/cities/"+city+"?days=5", function( data ) {
 				}).done(function(data) {
@@ -191,8 +299,11 @@
 							$('#rain1').text(parsedata[city][1]['rain']);
 							$('#wind1').text(parsedata[city][1]['wind']);
 					  		}
+					  		temp=parsedata[city][i]['temp'];
 
 							$('#temp'+i).text(parsedata[city][i]['temp']+'º');
+							temps.push(parseInt(temp));
+							//console.log(temps);
 
 							if('Sunny'==parsedata[city][i]['status'])
 					        	$('#img'+i).attr('src','images/icons/icon-2.svg');
@@ -205,6 +316,8 @@
 							else if('Foggy'==parsedata[city][i]['status'])
 								$('#img'+i).attr('src','images/icons/icon-7.svg');
 					  	}
+					  	//console.log(temps);
+	    				updateLineChart(temps);
 				  	}
 				  })
 				  .fail(function(data) {
@@ -214,8 +327,10 @@
 					  'error'
 					)
 				  })
+				  
 			}
 
+			
 
 			$('#measure').on('change', function() { //assuming celsius is the default measure
 				var measure=$( "#measure" ).val();
@@ -238,57 +353,22 @@
 
 		    $(document).ready(function () {
 		    	//Let's assume that coimbra is our current location
-	    		updateForecast('coimbra');
+	    		temps=updateForecast('coimbra');
+	    		updateHeatMap('coimbra');
+
 		    });
 
 			$('#form').submit(function() { 
 				var city=$('#searchTerm').val();
-		    	updateForecast(city);
+		    	temps=updateForecast(city);
+	    		updateLineChart(temps);
+	    		updateHeatMap(city);
 
 			    return false;
 			});
 
 
 
-
-
-			var ctx = document.getElementById('myChart');
-			var myChart = new Chart(ctx, {
-			    type: 'bar',
-			    data: {
-			        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-			        datasets: [{
-			            label: '# of Votes',
-			            data: [12, 19, 3, 5, 2, 3],
-			            backgroundColor: [
-			                'rgba(255, 99, 132, 0.2)',
-			                'rgba(54, 162, 235, 0.2)',
-			                'rgba(255, 206, 86, 0.2)',
-			                'rgba(75, 192, 192, 0.2)',
-			                'rgba(153, 102, 255, 0.2)',
-			                'rgba(255, 159, 64, 0.2)'
-			            ],
-			            borderColor: [
-			                'rgba(255, 99, 132, 1)',
-			                'rgba(54, 162, 235, 1)',
-			                'rgba(255, 206, 86, 1)',
-			                'rgba(75, 192, 192, 1)',
-			                'rgba(153, 102, 255, 1)',
-			                'rgba(255, 159, 64, 1)'
-			            ],
-			            borderWidth: 1
-			        }]
-			    },
-			    options: {
-			        scales: {
-			            yAxes: [{
-			                ticks: {
-			                    beginAtZero: true
-			                }
-			            }]
-			        }
-			    }
-			});
 		</script>
 		
 	</body>
