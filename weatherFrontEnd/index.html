@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1">
+		
+		<title>Weather Challenge</title>
+
+		<!-- Loading third party fonts -->
+		<link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
+		<link href="fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+		<!-- Loading main css file -->
+		<link rel="stylesheet" href="style.css">
+		
+		<!--[if lt IE 9]>
+		<script src="js/ie-support/html5.js"></script>
+		<script src="js/ie-support/respond.js"></script>
+		<![endif]-->
+
+	</head>
+
+
+	<body>
+		
+		<div class="site-content">
+			<div class="site-header">
+				<div class="container">
+					<a href="index.html" class="branding">
+						<img src="images/logo.png" alt="" class="logo">
+						<div class="logo-type">
+							<h1 class="site-title">Wit Software</h1>
+							<small class="site-description">Weather Forecast</small>
+						</div>
+					</a>
+
+					<!-- Default snippet for navigation -->
+					<div class="main-navigation">
+						<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
+						<ul class="menu">
+							<li class="menu-item current-menu-item"><a href="index.html">Home</a></li>
+<!-- 							<li class="menu-item"><a href="news.html">News</a></li>
+							<li class="menu-item"><a href="live-cameras.html">Live cameras</a></li>
+							<li class="menu-item"><a href="photos.html">Photos</a></li>
+							<li class="menu-item"><a href="contact.html">Contact</a></li> -->
+						</ul> <!-- .menu -->
+					</div> <!-- .main-navigation -->
+
+					<div class="mobile-navigation"></div>
+
+				</div>
+			</div> <!-- .site-header -->
+
+			<div class="hero" data-bg-image="images/banner.png">
+				<div class="container">
+					<div class="filter" >
+						<div class="quality filter-control float-right" style="background: white; color: black;">
+							<label for="">Measure</label>
+							<span class="select control">
+								<select name="" id="measure">
+									<option value="C">ºC</option>
+									<option value="F">ºF</option>
+								</select>
+							</span>
+						</div>
+					</div>
+					<form action="#" id="form" class="find-location">
+						<input autocomplete="off" type="text" id="searchTerm"  placeholder="Find your location... (lisboa, porto, aveiro or coimbra)">
+						<input type="submit" value="Find">
+					</form>
+
+			</div>
+		</div>
+
+			<div class="forecast-table" style="margin-top: 2%">
+				<div class="container">
+					<div class="forecast-container">
+						<div class="today forecast">
+							<div class="forecast-header">
+								<div class="day">T</div>
+								<div class="date"></div>
+							</div> <!-- .forecast-header -->
+							<div class="forecast-content">
+								<div class="location" id="cityname"></div>
+								<div class="degree">
+									<div class="num" id="temp1"></div>
+									<div class="forecast-icon">
+										<img id="img1" alt="" width=90>
+									</div>	
+								</div>
+								<span id="rain1"><img src="images/icon-umberella.png" alt=""></span>
+								<span id="wind1"><img src="images/icon-wind.png" alt=""></span>
+							</div>
+						</div>
+						<div class="forecast">
+							<div class="forecast-header">
+								<div class="day">T+1</div>
+							</div> <!-- .forecast-header -->
+							<div class="forecast-content">
+								<div class="forecast-icon">
+									<img id="img2"  alt="" width=48>
+								</div>
+								<div id="temp2" class="degree"></div>
+							</div>
+						</div>
+						<div class="forecast">
+							<div class="forecast-header">
+								<div class="day">T+2</div>
+							</div> <!-- .forecast-header -->
+							<div class="forecast-content">
+								<div class="forecast-icon">
+									<img id="img3"  alt="" width=48>
+								</div>
+								<div id="temp3" class="degree"></div>
+							</div>
+						</div>
+						<div class="forecast">
+							<div class="forecast-header">
+								<div class="day">T+3</div>
+							</div> <!-- .forecast-header -->
+							<div class="forecast-content">
+								<div class="forecast-icon">
+									<img id="img4"  alt="" width=48>
+								</div>
+								<div id="temp4" class="degree"></div>
+							</div>
+						</div>
+						<div class="forecast">
+							<div class="forecast-header">
+								<div class="day">T+4</div>
+							</div> <!-- .forecast-header -->
+							<div class="forecast-content">
+								<div class="forecast-icon">
+									<img id="img5"  alt="" width=48>
+								</div>
+								<div id="temp5" class="degree"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<main class="main-content">
+				<div class="fullwidth-block" data-bg-color="white">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-6">
+								<canvas id="myChart" width="400" height="400"></canvas>
+							</div>
+							<div class="col-md-6">
+								<div class="news">
+									<div class="date">06.10</div>
+									<h3><a href="#">Doloremque laudantium totam sequi </a></h3>
+									<p>Enim impedit officiis placeat qui recusandae doloremque possimus, iusto blanditiis, quam optio delectus maiores. Possimus rerum, velit cum natus eos. Cumque pariatur beatae asperiores, esse libero quas ad dolorem. Voluptates.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+			</main> <!-- .main-content -->
+
+
+		</div>
+		
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script src="js/plugins.js"></script>
+		<script src="js/app.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+		<script>
+
+			function updateForecast(city){
+
+		    	$.get( "http://localhost:8080/cities/"+city+"?days=5", function( data ) {
+				}).done(function(data) {
+				  	parsedata=JSON.parse(data);
+				  	$('#cityname').text(city);
+
+
+				  	if (parsedata['error']){
+					  	Swal.fire(
+						  parsedata['error'],
+						  '',
+						  'error'
+						)
+				  	}
+				  	else{
+					  	for(var i=1;i<=5;i++){
+					  		if(i==1){
+							$('#rain1').text(parsedata[city][1]['rain']);
+							$('#wind1').text(parsedata[city][1]['wind']);
+					  		}
+
+							$('#temp'+i).text(parsedata[city][i]['temp']+'º');
+
+							if('Sunny'==parsedata[city][i]['status'])
+					        	$('#img'+i).attr('src','images/icons/icon-2.svg');
+							else if('Cloudy'==parsedata[city][i]['status'])
+					        	$('#img'+i).attr('src','images/icons/icon-5.svg');
+							else if('Rainy'==parsedata[city][i]['status'])
+					        	$('#img'+i).attr('src','images/icons/icon-10.svg');
+							else if('Windy'==parsedata[city][i]['status'])
+					        	$('#img'+i).attr('src','images/icons/icon-8.svg');
+							else if('Foggy'==parsedata[city][i]['status'])
+								$('#img'+i).attr('src','images/icons/icon-7.svg');
+					  	}
+				  	}
+				  })
+				  .fail(function(data) {
+				    Swal.fire(
+					  'An error has occurred getting the weather information from the server!',
+					  '',
+					  'error'
+					)
+				  })
+			}
+
+
+			$('#measure').on('change', function() { //assuming celsius is the default measure
+				var measure=$( "#measure" ).val();
+
+			  	for(var i=1;i<=5;i++){
+					var current=$('#temp'+i).text().slice(0, -1);
+					console.log(current);
+
+					if(measure=='F'){
+						var fahn=Math.round((parseInt(current)*1.8)+32);
+						$('#temp'+i).text(fahn+'º');
+					}
+					else if(measure=='C'){
+						var celsius=Math.round((parseInt(current)-32)/1.8);
+						$('#temp'+i).text(celsius+'º');
+					}
+
+	  			}
+			});
+
+		    $(document).ready(function () {
+		    	//Let's assume that coimbra is our current location
+	    		updateForecast('coimbra');
+		    });
+
+			$('#form').submit(function() { 
+				var city=$('#searchTerm').val();
+		    	updateForecast(city);
+
+			    return false;
+			});
+
+
+
+
+
+			var ctx = document.getElementById('myChart');
+			var myChart = new Chart(ctx, {
+			    type: 'bar',
+			    data: {
+			        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+			        datasets: [{
+			            label: '# of Votes',
+			            data: [12, 19, 3, 5, 2, 3],
+			            backgroundColor: [
+			                'rgba(255, 99, 132, 0.2)',
+			                'rgba(54, 162, 235, 0.2)',
+			                'rgba(255, 206, 86, 0.2)',
+			                'rgba(75, 192, 192, 0.2)',
+			                'rgba(153, 102, 255, 0.2)',
+			                'rgba(255, 159, 64, 0.2)'
+			            ],
+			            borderColor: [
+			                'rgba(255, 99, 132, 1)',
+			                'rgba(54, 162, 235, 1)',
+			                'rgba(255, 206, 86, 1)',
+			                'rgba(75, 192, 192, 1)',
+			                'rgba(153, 102, 255, 1)',
+			                'rgba(255, 159, 64, 1)'
+			            ],
+			            borderWidth: 1
+			        }]
+			    },
+			    options: {
+			        scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero: true
+			                }
+			            }]
+			        }
+			    }
+			});
+		</script>
+		
+	</body>
+
+</html>

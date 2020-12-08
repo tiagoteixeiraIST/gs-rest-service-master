@@ -4,10 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -18,6 +15,7 @@ import java.util.logging.Logger;
 public class CityMeteoController {
     private final AtomicLong counter = new AtomicLong();
 
+    @CrossOrigin(origins = "http://localhost:8888")
     @GetMapping("/cities")
     public Cities cities() {
         String resourceName = System.getProperty("user.dir")+"/src/main/java/com/example/restservice/cities.json";
@@ -41,6 +39,7 @@ public class CityMeteoController {
         return new Cities(object,counter.incrementAndGet());
     }
 
+    @CrossOrigin(origins = "http://localhost:8888")
     @GetMapping("/cities/{city}")
     public String cityMeteo(@PathVariable String city,@RequestParam(value = "days", defaultValue = "1") String days) {
 
@@ -90,7 +89,11 @@ public class CityMeteoController {
             JSONObject json = new JSONObject();
 
             for(int i=1;i<=Integer.parseInt(days);i++){
-                item.put(String.valueOf(i),String.valueOf(value.get(String.valueOf(i))));
+
+
+
+
+                item.put(String.valueOf(i),value.get(String.valueOf(i)));
             }
             json.put(city,item);
             json.put("id",counter.incrementAndGet());

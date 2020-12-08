@@ -1,30 +1,30 @@
 {
   "coimbra": {
-    "1":"Céu Limpo",
-    "2":"Céu Limpo",
-    "3":"Céu Limpo",
-    "4":"Céu Limpo",
-    "5":"Céu Limpo"
+    "1":{"status":"Windy","temp":"25","rain":"0%","wind":"18km/h"},
+    "2":{"status":"Rainy","temp":"24","rain":"0%","wind":"18km/h"},
+    "3":{"status":"Sunny","temp":"23","rain":"0%","wind":"18km/h"},
+    "4":{"status":"Windy","temp":"22","rain":"0%","wind":"18km/h"},
+    "5":{"status":"Foggy","temp":"21","rain":"0%","wind":"18km/h"}
   },
   "lisboa": {
-    "1":"Céu Limpo",
-    "2":"Céu Limpo",
-    "3":"Céu Limpo",
-    "4":"Céu Limpo",
-    "5":"Céu Limpo"
+    "1":{"status":"Foggy","temp":"11","rain":"0%","wind":"18km/h"},
+    "2":{"status":"Windy","temp":"12","rain":"0%","wind":"18km/h"},
+    "3":{"status":"Sunny","temp":"13","rain":"0%","wind":"18km/h"},
+    "4":{"status":"Rainy","temp":"14","rain":"0%","wind":"18km/h"},
+    "5":{"status":"Windy","temp":"15","rain":"0%","wind":"18km/h"}
   },
   "aveiro": {
-    "1":"Céu Limpo",
-    "2":"Céu Limpo",
-    "3":"Céu Limpo",
-    "4":"Céu Limpo",
-    "5":"Céu Limpo"
+    "1":{"status":"Windy","temp":"5","rain":"0%","wind":"18km/h"},
+    "2":{"status":"Rainy","temp":"7","rain":"0%","wind":"18km/h"},
+    "3":{"status":"Sunny","temp":"6","rain":"0%","wind":"18km/h"},
+    "4":{"status":"Windy","temp":"8","rain":"0%","wind":"18km/h"},
+    "5":{"status":"Foggy","temp":"9","rain":"0%","wind":"18km/h"}
   },
   "porto": {
-    "1":"Céu Limpo",
-    "2":"Céu Limpo",
-    "3":"Céu Limpo",
-    "4":"Céu Limpo",
-    "5":"Céu Limpo"
+    "1":{"status":"Foggy","temp":"11","rain":"0%","wind":"18km/h"},
+    "2":{"status":"Windy","temp":"12","rain":"0%","wind":"18km/h"},
+    "3":{"status":"Sunny","temp":"13","rain":"0%","wind":"18km/h"},
+    "4":{"status":"Rainy","temp":"14","rain":"0%","wind":"18km/h"},
+    "5":{"status":"Windy","temp":"15","rain":"0%","wind":"18km/h"}
   }
 }
