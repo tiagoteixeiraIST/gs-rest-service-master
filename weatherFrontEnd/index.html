@@ -75,7 +75,7 @@
 						</div>
 					</div>
 					<form action="#" id="form" class="find-location">
-						<input autocomplete="off" type="text" id="searchTerm"  placeholder="Find your location... (lisboa, porto, aveiro or coimbra)">
+						<input autocomplete="off" type="text" id="searchTerm"  placeholder="lisboa, porto, aveiro or coimbra">
 						<input type="submit" value="Find">
 					</form>
 
@@ -205,13 +205,13 @@
 		        };
 
 
-		        var heatmapLayer = new HeatmapOverlay(cfg);
+	        var heatmapLayer = new HeatmapOverlay(cfg);
 
-		        var map = new L.Map('map', {
-		          center: new L.LatLng(40.2045366,-8.4123607),
-		          zoom: 4,
-		          layers: [baseLayer, heatmapLayer]
-		        });
+	        var map = new L.Map('map', {
+	          center: new L.LatLng(40.2045366,-8.4123607),
+	          zoom: 4,
+	          layers: [baseLayer, heatmapLayer]
+	        });
 
 		        
 			function updateLineChart(temps){
@@ -280,7 +280,7 @@
 			function updateForecast(city){
 				var temps=[];
 
-		    	$.get( "http://localhost:8080/cities/"+city+"?days=5", function( data ) {
+		    	$.get( "http://localhost:8080/cities/"+city+"?days=5", function( data ) { //change the API address if you need
 				}).done(function(data) {
 				  	parsedata=JSON.parse(data);
 				  	$('#cityname').text(city);
@@ -330,7 +330,6 @@
 				  
 			}
 
-			
 
 			$('#measure').on('change', function() { //assuming celsius is the default measure
 				var measure=$( "#measure" ).val();
@@ -366,8 +365,6 @@
 
 			    return false;
 			});
-
-
 
 		</script>
 		

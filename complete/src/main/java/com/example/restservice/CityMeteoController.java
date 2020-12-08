@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class CityMeteoController {
     private final AtomicLong counter = new AtomicLong();
 
-    @CrossOrigin(origins = "http://localhost:8888")
+    @CrossOrigin(origins = "http://localhost:8888") //Change for the web client address
     @GetMapping("/cities")
     public Cities cities() {
         String resourceName = System.getProperty("user.dir")+"/src/main/java/com/example/restservice/cities.json";
@@ -39,7 +39,7 @@ public class CityMeteoController {
         return new Cities(object,counter.incrementAndGet());
     }
 
-    @CrossOrigin(origins = "http://localhost:8888")
+    @CrossOrigin(origins = "http://localhost:8888") //Change for the web client address
     @GetMapping("/cities/{city}")
     public String cityMeteo(@PathVariable String city,@RequestParam(value = "days", defaultValue = "1") String days) {
 
